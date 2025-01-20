@@ -8,13 +8,12 @@
 #define BUFFER_SIZE 1024
 
 int main(int argc, char *argv[]) {
-    if (argc != 3) {
-        fprintf(stderr, "Użycie: %s <host> <wiadomość>\n", argv[0]);
+    if (argc != 2) {
+        fprintf(stderr, "Użycie: %s <host>\n", argv[0]);
         exit(EXIT_FAILURE);
     }
 
     const char *host = argv[1];
-    const char *message = argv[2];
     const char *port = "5005"; // Numer portu
     int sockfd;
     struct addrinfo hints, *res;
@@ -37,7 +36,9 @@ int main(int argc, char *argv[]) {
         freeaddrinfo(res);
         exit(EXIT_FAILURE);
     }
-
+	char message[1024];
+	fgets(message,sizeof(message),stdin);
+	printf("%s\n",message);
     // Wysłanie wiadomości do serwera
     if (sendto(sockfd, message, strlen(message), 0, res->ai_addr, res->ai_addrlen) < 0) {
         perror("Błąd wysyłania wiadomości");

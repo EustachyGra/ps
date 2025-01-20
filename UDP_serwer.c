@@ -41,15 +41,20 @@ int main() {
         if (recvfrom(sockfd, buffer, BUFFER_SIZE, 0, (struct sockaddr *)&client_addr, &addr_len) < 0) {
             perror("Błąd odbioru");
             continue;
-        }
+	}       
 
         printf("Otrzymano wiadomość: %s\n", buffer);
-
         // Wysłanie odpowiedzi
         const char *response = "Otrzymałem Twoją wiadomość";
         if (sendto(sockfd, response, strlen(response), 0, (struct sockaddr *)&client_addr, addr_len) < 0) {
             perror("Błąd wysyłania odpowiedzi");
         }
+
+	 if(strcmp(buffer,"end")==0)
+	{
+		break;
+	}
+	
     }
 
     close(sockfd);
